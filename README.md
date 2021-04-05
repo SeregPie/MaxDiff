@@ -45,6 +45,19 @@ let MaxDiff = require('@seregpie/max-diff');
 
 The module is globally available as `MaxDiff`.
 
+## usage
+
+```javascript
+let instance = MaxDiff(items);
+while (!instance.complete) {
+  let orderableItems = instance.getCandidates();
+  let [bestItem, worstItem] = pickTwo(orderableItems);
+  instance.orderBefore(bestItem, orderableItems);
+  instance.orderAfter(worstItem, orderableItems);
+}
+console.log(instance.result);
+```
+
 ## members
 
 `.items`
