@@ -14,6 +14,12 @@ Returns an instance to control the process.
 
 [Try it out!](https://seregpie.github.io/MaxDiff/)
 
+## dependencies
+
+- [BronKerbosch](https://github.com/SeregPie/BronKerbosch)
+
+## setup
+
 ### npm
 
 ```shell
