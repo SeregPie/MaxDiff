@@ -57,7 +57,7 @@ The module is globally available as `MaxDiff`.
 let instance = MaxDiff(items);
 while (!instance.complete) {
   let orderableItems = instance.getCandidates();
-  let [bestItem, worstItem] = pickTwo(orderableItems);
+  let [bestItem, worstItem] = await pickTwo(orderableItems);
   instance.orderBefore(bestItem, orderableItems);
   instance.orderAfter(worstItem, orderableItems);
 }
