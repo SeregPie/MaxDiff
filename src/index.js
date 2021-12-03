@@ -50,14 +50,14 @@ function MaxDiff(items) {
 		}
 		return compareGroupsByIndex(items, otherItems);
 	});
-	let hasItem = (item => {
+	let hasItem = ((item) => {
 		return items.includes(item);
 	});
 	let getUnorderedPairs = (() => {
 		let pairs = Array_prototype_pairs(items).filter(([item, otherItem]) => {
 			return getComparison(item, otherItem) == null;
 		});
-		pairs.forEach(items => {
+		pairs.forEach((items) => {
 			items.sort(compareItemsByIndex);
 		});
 		pairs.sort(compareGroupsByIndex);
@@ -67,7 +67,7 @@ function MaxDiff(items) {
 		let pairs = Array_prototype_pairs(items).filter(([item, otherItem]) => {
 			return getComparison(item, otherItem) != null;
 		});
-		pairs.forEach(items => {
+		pairs.forEach((items) => {
 			items.sort(compareItemsByOrder);
 		});
 		pairs.sort(compareGroupsByIndex);
@@ -75,7 +75,7 @@ function MaxDiff(items) {
 	});
 	let getUnorderedGroups = (() => {
 		let groups = BronKerbosch(getUnorderedPairs());
-		groups.forEach(items => {
+		groups.forEach((items) => {
 			items.sort(compareItemsByIndex);
 		});
 		groups.sort(compareGroupsByLengthAndIndex);
@@ -83,30 +83,30 @@ function MaxDiff(items) {
 	});
 	let getOrderedGroups = (() => {
 		let groups = BronKerbosch(getOrderedPairs());
-		groups.forEach(items => {
+		groups.forEach((items) => {
 			items.sort(compareItemsByOrder);
 		});
 		groups.sort(compareGroupsByLengthAndIndex);
 		return groups;
 	});
-	let getItemsBefore = (item => {
+	let getItemsBefore = ((item) => {
 		return (items
-			.filter(otherItem => {
+			.filter((otherItem) => {
 				return getComparison(otherItem, item) < 0;
 			})
 			.sort(compareItemsByIndex)
 		);
 	});
-	let getItemsAfter = (item => {
+	let getItemsAfter = ((item) => {
 		return (items
-			.filter(otherItem => {
+			.filter((otherItem) => {
 				return getComparison(otherItem, item) > 0;
 			})
 			.sort(compareItemsByIndex)
 		);
 	});
 	let order = ((...items) => {
-		items = items.filter(item => {
+		items = items.filter((item) => {
 			return hasItem(item);
 		});
 		Array_prototype_pairs(items).forEach(([itemBefore, itemAfter]) => {
@@ -114,14 +114,14 @@ function MaxDiff(items) {
 				setComparison(itemBefore, itemAfter);
 				let itemsBefore = getItemsBefore(itemBefore);
 				let itemsAfter = getItemsAfter(itemAfter);
-				itemsBefore.forEach(itemBefore => {
+				itemsBefore.forEach((itemBefore) => {
 					setComparison(itemBefore, itemAfter);
 				});
-				itemsAfter.forEach(itemAfter => {
+				itemsAfter.forEach((itemAfter) => {
 					setComparison(itemBefore, itemAfter);
 				});
-				itemsBefore.forEach(itemBefore => {
-					itemsAfter.forEach(itemAfter => {
+				itemsBefore.forEach((itemBefore) => {
+					itemsAfter.forEach((itemAfter) => {
 						setComparison(itemBefore, itemAfter);
 					});
 				});
@@ -132,19 +132,19 @@ function MaxDiff(items) {
 		}
 	});
 	let orderBefore = ((item, otherItems) => {
-		(new Set(otherItems)).forEach(otherItem => {
+		(new Set(otherItems)).forEach((otherItem) => {
 			order(item, otherItem);
 		});
 	});
 	let orderAfter = ((item, otherItems) => {
-		(new Set(otherItems)).forEach(otherItem => {
+		(new Set(otherItems)).forEach((otherItem) => {
 			order(otherItem, item);
 		});
 	});
-	let orderFirst = (item => {
+	let orderFirst = ((item) => {
 		orderBefore(item, items);
 	});
-	let orderLast = (item => {
+	let orderLast = ((item) => {
 		orderAfter(item, items);
 	});
 	return {
@@ -165,7 +165,7 @@ function MaxDiff(items) {
 		getCandidates(limit = 4) {
 			let groups = getUnorderedGroups();
 			if (groups.length) {
-				let items = Array_prototype_min(groups, items => Math.abs(items.length - limit));
+				let items = Array_prototype_min(groups, (items) => Math.abs(items.length - limit));
 				items.splice(limit);
 				return items;
 			}
@@ -185,7 +185,7 @@ function MaxDiff(items) {
 		clone() {
 			let instance = MaxDiff(items);
 			let groups = getOrderedGroups();
-			groups.forEach(items => {
+			groups.forEach((items) => {
 				instance.order(...items);
 			});
 			return instance;
