@@ -1,6 +1,6 @@
-let assert = require('assert').strict;
+const assert = require('assert/strict');
 
-let MaxDiff = require('./index');
+const MaxDiff = require('.');
 
 {
 	let instance = MaxDiff(['a']);
@@ -59,7 +59,7 @@ let MaxDiff = require('./index');
 	assert.deepEqual(instance.getItemsAfter('b'), []);
 	assert.deepEqual(instance.getItemsAfter('c'), []);
 	// finished
-	let f0 = (instance => {
+	let f0 = ((instance) => {
 		assert.equal(instance.complete, true);
 		assert.equal(instance.progress, 1);
 		assert.deepEqual(instance.result, ['c', 'b', 'a']);
@@ -75,7 +75,7 @@ let MaxDiff = require('./index');
 		assert.deepEqual(instance.getItemsAfter('c'), ['a', 'b']);
 	});
 	// b < a, c < a
-	let f1 = (instance => {
+	let f1 = ((instance) => {
 		assert.equal(instance.complete, false);
 		assert.equal(instance.progress, 2/3);
 		assert.deepEqual(instance.result, undefined);
@@ -91,7 +91,7 @@ let MaxDiff = require('./index');
 		assert.deepEqual(instance.getItemsAfter('c'), ['a']);
 	});
 	// c < a, c < b
-	let f2 = (instance => {
+	let f2 = ((instance) => {
 		assert.equal(instance.complete, false);
 		assert.equal(instance.progress, 2/3);
 		assert.deepEqual(instance.result, undefined);
@@ -106,7 +106,7 @@ let MaxDiff = require('./index');
 		assert.deepEqual(instance.getItemsAfter('b'), []);
 		assert.deepEqual(instance.getItemsAfter('c'), ['a', 'b']);
 	});
-	(instance => {
+	((instance) => {
 		instance.order('b', 'a');
 		assert.equal(instance.complete, false);
 		assert.equal(instance.progress, 1/3);
@@ -121,18 +121,18 @@ let MaxDiff = require('./index');
 		assert.deepEqual(instance.getItemsAfter('a'), []);
 		assert.deepEqual(instance.getItemsAfter('b'), ['a']);
 		assert.deepEqual(instance.getItemsAfter('c'), []);
-		(instance => {
+		((instance) => {
 			instance.order('c', 'a');
 			f1(instance);
 			instance.order('c', 'b');
 			f0(instance);
 		})(instance.clone());
-		(instance => {
+		((instance) => {
 			instance.order('c', 'b');
 			f0(instance);
 		})(instance.clone());
 	})(instance.clone());
-	(instance => {
+	((instance) => {
 		instance.order('c', 'a');
 		assert.equal(instance.complete, false);
 		assert.equal(instance.progress, 1/3);
@@ -147,20 +147,20 @@ let MaxDiff = require('./index');
 		assert.deepEqual(instance.getItemsAfter('a'), []);
 		assert.deepEqual(instance.getItemsAfter('b'), []);
 		assert.deepEqual(instance.getItemsAfter('c'), ['a']);
-		(instance => {
+		((instance) => {
 			instance.order('b', 'a');
 			f1(instance);
 			instance.order('c', 'b');
 			f0(instance);
 		})(instance.clone());
-		(instance => {
+		((instance) => {
 			instance.order('c', 'b');
 			f2(instance);
 			instance.order('b', 'a');
 			f0(instance);
 		})(instance.clone());
 	})(instance.clone());
-	(instance => {
+	((instance) => {
 		instance.order('c', 'b');
 		assert.equal(instance.complete, false);
 		assert.equal(instance.progress, 1/3);
@@ -175,11 +175,11 @@ let MaxDiff = require('./index');
 		assert.deepEqual(instance.getItemsAfter('a'), []);
 		assert.deepEqual(instance.getItemsAfter('b'), []);
 		assert.deepEqual(instance.getItemsAfter('c'), ['b']);
-		(instance => {
+		((instance) => {
 			instance.order('b', 'a');
 			f0(instance);
 		})(instance.clone());
-		(instance => {
+		((instance) => {
 			instance.order('c', 'a');
 			f2(instance);
 			instance.order('b', 'a');
@@ -189,7 +189,7 @@ let MaxDiff = require('./index');
 }
 {
 	let instance = MaxDiff(['a', 'b', 'c']);
-	let f = (instance => {
+	let f = ((instance) => {
 		assert.equal(instance.complete, false);
 		assert.equal(instance.progress, 1/3);
 		assert.deepEqual(instance.result, undefined);
@@ -208,6 +208,6 @@ let MaxDiff = require('./index');
 	f(instance);
 	instance.order('a', 'a', 'c', 'c', 'a', 'a');
 	f(instance);
-	instance.order({}, {}, 'b', {}, 'b', {}, {});
+	instance.order('x', 'x', 'b', 'x', 'b', 'x', 'x');
 	f(instance);
 }
