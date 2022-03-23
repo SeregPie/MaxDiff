@@ -1,5 +1,4 @@
-(function() {
-
+(() => {
 	let {
 		computed,
 		customRef,
@@ -7,7 +6,7 @@
 		watch,
 	} = VueCompositionAPI;
 
-	let getHeroImageURL = (key => `https://i.annihil.us/u/prod/marvel/i/mg/${key}/standard_xlarge.jpg`);
+	let getHeroImageURL = ((key) => `https://i.annihil.us/u/prod/marvel/i/mg/${key}/standard_xlarge.jpg`);
 	let heroes = [
 		{
 			name: 'Black Widow',
@@ -51,7 +50,7 @@
 		el: '#App',
 		vuetify: new Vuetify(),
 		setup() {
-			let createStep = (instance => {
+			let createStep = ((instance) => {
 				let candidates = instance.getCandidates();
 				return {
 					instance,
@@ -109,7 +108,7 @@
 					},
 				};
 			});
-			watch(coolHeroRef, coolHero => {
+			watch(coolHeroRef, (coolHero) => {
 				if (coolHero) {
 					let heroes = heroesRef.value;
 					if (heroes.length === 2) {
@@ -117,7 +116,7 @@
 					}
 				}
 			});
-			watch(lameHeroRef, lameHero => {
+			watch(lameHeroRef, (lameHero) => {
 				if (lameHero) {
 					let heroes = heroesRef.value;
 					if (heroes.length === 2) {
@@ -143,7 +142,7 @@
 						instance = instance.clone();
 						instance.order(coolHero, lameHero);
 						let heroes = heroesRef.value;
-						heroes.forEach(hero => {
+						heroes.forEach((hero) => {
 							if (hero !== coolHero && hero !== lameHero) {
 								instance.order(coolHero, hero, lameHero);
 							}
@@ -175,5 +174,4 @@
 			};
 		},
 	});
-
 })();
