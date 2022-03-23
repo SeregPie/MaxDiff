@@ -1,4 +1,4 @@
-export interface MaxDiffInstance<T> {
+interface MaxDiff<T> {
 	items: Array<T>;
 	progress: number;
 	complete: boolean;
@@ -8,18 +8,18 @@ export interface MaxDiffInstance<T> {
 	getUnorderedPairs(): Array<[T, T]>;
 	getOrderedGroups(): Array<Array<T>>;
 	getUnorderedGroups(): Array<Array<T>>;
-	getItemsBefore(item: T, otherItems: Iterable<T>): Array<T>;
-	getItemsAfter(item: T, otherItems: Iterable<T>): Array<T>;
+	getItemsBefore(item: T): Array<T>;
+	getItemsAfter(item: T): Array<T>;
 	order(...items: Array<T>): void;
-	orderBefore(item: T): void;
-	orderAfter(item: T): void;
+	orderBefore(item: T, otherItems: Iterable<T>): void;
+	orderAfter(item: T, otherItems: Iterable<T>): void;
 	orderFirst(item: T): void;
 	orderLast(item: T): void;
-	clone(): MaxDiffInstance<T>;
+	clone(): MaxDiff<T>;
 }
 
-export interface MaxDiff<T> {
-	(items: Iterable<T>): MaxDiffInstance<T>;
+declare const MaxDiff: {
+	<T>(items: Iterable<T>): MaxDiff<T>;
 }
 
 export default MaxDiff;
