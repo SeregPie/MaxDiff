@@ -148,8 +148,7 @@
 							}
 						});
 						let steps = stepsRef.value;
-						steps.push(createStep(instance));
-						stepsRef.value = steps;
+						stepsRef.value = [...steps, createStep(instance)];
 					});
 				}
 			});
