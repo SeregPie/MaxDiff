@@ -4,7 +4,7 @@
 		customRef,
 		shallowRef,
 		watch,
-	} = VueCompositionAPI;
+	} = Vue;
 
 	let getHeroImageURL = ((key) => `https://i.annihil.us/u/prod/marvel/i/mg/${key}/standard_xlarge.jpg`);
 	let heroes = [
