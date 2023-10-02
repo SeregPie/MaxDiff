@@ -1,4 +1,4 @@
-export default function(that) {
+export default function (that) {
 	let result = [];
 	let ii = that.length;
 	for (let i0 = 0, ii0 = ii - 1; i0 < ii0; i0++) {

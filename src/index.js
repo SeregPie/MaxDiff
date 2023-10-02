@@ -1,17 +1,15 @@
 import BronKerbosch from '@seregpie/bron-kerbosch';
+import cybele from 'cybele';
 
-import Array_prototype_min from './core/Array/prototype/min';
-import Array_prototype_pairs from './core/Array/prototype/pairs';
-
-function MaxDiff(items) {
-	items = [...(new Set(items))];
-	let getItems = (() => [...items]);
+export default (items) => {
+	items = [...new Set(items)];
+	let getItems = () => [...items];
 	let result;
-	let getResult = (() => {
+	let getResult = () => {
 		if (result) {
 			return [...result];
 		}
-	});
+	};
 	if (items.length < 2) {
 		result = items;
 	}
@@ -19,42 +17,46 @@ function MaxDiff(items) {
 	items.forEach((_, i) => {
 		comparisons[i][i] = 0;
 	});
-	let getComparison = ((item, otherItem) => {
+	let getComparison = (item, otherItem) => {
 		let index = items.indexOf(item);
 		let otherIndex = items.indexOf(otherItem);
 		return comparisons[index][otherIndex];
-	});
-	let setComparison = ((item, otherItem) => {
+	};
+	let setComparison = (item, otherItem) => {
 		let index = items.indexOf(item);
 		let otherIndex = items.indexOf(otherItem);
 		comparisons[index][otherIndex] = -1;
 		comparisons[otherIndex][index] = +1;
-	});
+	};
 	let compareItemsByOrder = getComparison;
-	let compareItemsByIndex = ((item, otherItem) => {
+	let compareItemsByIndex = (item, otherItem) => {
 		return items.indexOf(item) - items.indexOf(otherItem);
-	});
-	let compareGroupsByIndex = ((items, otherItems) => {
-		for (let i = 0, ii = Math.min(items.length, otherItems.length); i < ii; i++) {
+	};
+	let compareGroupsByIndex = (items, otherItems) => {
+		for (
+			let i = 0, ii = Math.min(items.length, otherItems.length);
+			i < ii;
+			i++
+		) {
 			let c = compareItemsByIndex(items[i], otherItems[i]);
 			if (c) {
 				return c;
 			}
 		}
 		return items.length - otherItems.length;
-	});
-	let compareGroupsByLengthAndIndex = ((items, otherItems) => {
+	};
+	let compareGroupsByLengthAndIndex = (items, otherItems) => {
 		let c = otherItems.length - items.length;
 		if (c) {
 			return c;
 		}
 		return compareGroupsByIndex(items, otherItems);
-	});
-	let hasItem = ((item) => {
+	};
+	let hasItem = (item) => {
 		return items.includes(item);
-	});
-	let getUnorderedPairs = (() => {
-		let pairs = Array_prototype_pairs(items).filter(([item, otherItem]) => {
+	};
+	let getUnorderedPairs = () => {
+		let pairs = cybele.Array.proto.pairs(items).filter(([item, otherItem]) => {
 			return getComparison(item, otherItem) == null;
 		});
 		pairs.forEach((items) => {
@@ -62,9 +64,9 @@ function MaxDiff(items) {
 		});
 		pairs.sort(compareGroupsByIndex);
 		return pairs;
-	});
-	let getOrderedPairs = (() => {
-		let pairs = Array_prototype_pairs(items).filter(([item, otherItem]) => {
+	};
+	let getOrderedPairs = () => {
+		let pairs = cybele.Array.proto.pairs(items).filter(([item, otherItem]) => {
 			return getComparison(item, otherItem) != null;
 		});
 		pairs.forEach((items) => {
@@ -72,44 +74,42 @@ function MaxDiff(items) {
 		});
 		pairs.sort(compareGroupsByIndex);
 		return pairs;
-	});
-	let getUnorderedGroups = (() => {
+	};
+	let getUnorderedGroups = () => {
 		let groups = BronKerbosch(getUnorderedPairs());
 		groups.forEach((items) => {
 			items.sort(compareItemsByIndex);
 		});
 		groups.sort(compareGroupsByLengthAndIndex);
 		return groups;
-	});
-	let getOrderedGroups = (() => {
+	};
+	let getOrderedGroups = () => {
 		let groups = BronKerbosch(getOrderedPairs());
 		groups.forEach((items) => {
 			items.sort(compareItemsByOrder);
 		});
 		groups.sort(compareGroupsByLengthAndIndex);
 		return groups;
-	});
-	let getItemsBefore = ((item) => {
-		return (items
+	};
+	let getItemsBefore = (item) => {
+		return items
 			.filter((otherItem) => {
 				return getComparison(otherItem, item) < 0;
 			})
-			.sort(compareItemsByIndex)
-		);
-	});
-	let getItemsAfter = ((item) => {
-		return (items
+			.sort(compareItemsByIndex);
+	};
+	let getItemsAfter = (item) => {
+		return items
 			.filter((otherItem) => {
 				return getComparison(otherItem, item) > 0;
 			})
-			.sort(compareItemsByIndex)
-		);
-	});
-	let order = ((...items) => {
+			.sort(compareItemsByIndex);
+	};
+	let order = (...items) => {
 		items = items.filter((item) => {
 			return hasItem(item);
 		});
-		Array_prototype_pairs(items).forEach(([itemBefore, itemAfter]) => {
+		cybele.Array.proto.pairs(items).forEach(([itemBefore, itemAfter]) => {
 			if (getComparison(itemBefore, itemAfter) == null) {
 				setComparison(itemBefore, itemAfter);
 				let itemsBefore = getItemsBefore(itemBefore);
@@ -130,23 +130,23 @@ function MaxDiff(items) {
 		if (!getUnorderedPairs().length) {
 			result = getItems().sort(compareItemsByOrder);
 		}
-	});
-	let orderBefore = ((item, otherItems) => {
-		(new Set(otherItems)).forEach((otherItem) => {
+	};
+	let orderBefore = (item, otherItems) => {
+		new Set(otherItems).forEach((otherItem) => {
 			order(item, otherItem);
 		});
-	});
-	let orderAfter = ((item, otherItems) => {
-		(new Set(otherItems)).forEach((otherItem) => {
+	};
+	let orderAfter = (item, otherItems) => {
+		new Set(otherItems).forEach((otherItem) => {
 			order(otherItem, item);
 		});
-	});
-	let orderFirst = ((item) => {
+	};
+	let orderFirst = (item) => {
 		orderBefore(item, items);
-	});
-	let orderLast = ((item) => {
+	};
+	let orderLast = (item) => {
 		orderAfter(item, items);
-	});
+	};
 	return {
 		get items() {
 			return getItems();
@@ -157,15 +157,17 @@ function MaxDiff(items) {
 			return total ? partial / total : 1;
 		},
 		get complete() {
-			return !!result;
+			return result !== undefined;
 		},
 		get result() {
-			return getResult();
+			return result;
 		},
 		getCandidates(limit = 4) {
 			let groups = getUnorderedGroups();
 			if (groups.length) {
-				let items = Array_prototype_min(groups, (items) => Math.abs(items.length - limit));
+				let items = cybele.Array.proto.min(groups, (items) =>
+					Math.abs(items.length - limit),
+				);
 				items.splice(limit);
 				return items;
 			}
@@ -191,6 +193,4 @@ function MaxDiff(items) {
 			return instance;
 		},
 	};
-}
-
-export default MaxDiff;
+};

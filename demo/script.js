@@ -1,12 +1,8 @@
 (() => {
-	let {
-		computed,
-		customRef,
-		shallowRef,
-		watch,
-	} = Vue;
+	let {computed, customRef, shallowRef, watch} = Vue;
 
-	let getHeroImageURL = ((key) => `https://i.annihil.us/u/prod/marvel/i/mg/${key}/standard_xlarge.jpg`);
+	let getHeroImageURL = (key) =>
+		`https://i.annihil.us/u/prod/marvel/i/mg/${key}/standard_xlarge.jpg`;
 	let heroes = [
 		{
 			name: 'Black Widow',
@@ -50,7 +46,7 @@
 		el: '#App',
 		vuetify: new Vuetify(),
 		setup() {
-			let createStep = ((instance) => {
+			let createStep = (instance) => {
 				let candidates = instance.getCandidates();
 				return {
 					instance,
@@ -58,15 +54,15 @@
 					first: null,
 					last: null,
 				};
-			});
-			let createSteps = (() => {
+			};
+			let createSteps = () => {
 				let instance = MaxDiff(_.shuffle(heroes));
 				return [createStep(instance)];
-			});
+			};
 			let stepsRef = shallowRef(createSteps());
-			let restart = (() => {
+			let restart = () => {
 				stepsRef.value = createSteps();
-			});
+			};
 			let currStepIndexRef = computed(() => {
 				let steps = stepsRef.value;
 				return steps.length - 1;
@@ -127,17 +123,17 @@
 			let goToPrevStepRef = computed(() => {
 				let steps = stepsRef.value;
 				if (steps.length > 1) {
-					return (() => {
+					return () => {
 						steps.pop();
 						stepsRef.value = steps;
-					});
+					};
 				}
 			});
 			let goToNextStepRef = computed(() => {
 				let coolHero = coolHeroRef.value;
 				let lameHero = lameHeroRef.value;
 				if (coolHero && lameHero && coolHero !== lameHero) {
-					return (() => {
+					return () => {
 						let instance = currMaxDiffInstanceRef.value;
 						instance = instance.clone();
 						instance.order(coolHero, lameHero);
@@ -149,7 +145,7 @@
 						});
 						let steps = stepsRef.value;
 						stepsRef.value = [...steps, createStep(instance)];
-					});
+					};
 				}
 			});
 			let goesForwardRef = shallowRef(true);
@@ -162,7 +158,9 @@
 				complete: computed(() => currMaxDiffInstanceRef.value.complete),
 				progress: computed(() => currMaxDiffInstanceRef.value.progress),
 				result: computed(() => currMaxDiffInstanceRef.value.result),
-				intermediateResult: computed(() => currMaxDiffInstanceRef.value.getOrderedGroups()),
+				intermediateResult: computed(() =>
+					currMaxDiffInstanceRef.value.getOrderedGroups(),
+				),
 				showIntermediateResult: shallowRef(false),
 				heroes: heroesRef,
 				coolHero: coolHeroRef,

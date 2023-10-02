@@ -48,7 +48,11 @@ const MaxDiff = require('.');
 	assert.equal(instance.complete, false);
 	assert.equal(instance.progress, 0);
 	assert.deepEqual(instance.result, undefined);
-	assert.deepEqual(instance.getUnorderedPairs(), [['a', 'b'], ['a', 'c'], ['b', 'c']]);
+	assert.deepEqual(instance.getUnorderedPairs(), [
+		['a', 'b'],
+		['a', 'c'],
+		['b', 'c'],
+	]);
 	assert.deepEqual(instance.getUnorderedGroups(), [['a', 'b', 'c']]);
 	assert.deepEqual(instance.getOrderedPairs(), []);
 	assert.deepEqual(instance.getOrderedGroups(), []);
@@ -59,13 +63,17 @@ const MaxDiff = require('.');
 	assert.deepEqual(instance.getItemsAfter('b'), []);
 	assert.deepEqual(instance.getItemsAfter('c'), []);
 	// finished
-	let f0 = ((instance) => {
+	let f0 = (instance) => {
 		assert.equal(instance.complete, true);
 		assert.equal(instance.progress, 1);
 		assert.deepEqual(instance.result, ['c', 'b', 'a']);
 		assert.deepEqual(instance.getUnorderedPairs(), []);
 		assert.deepEqual(instance.getUnorderedGroups(), []);
-		assert.deepEqual(instance.getOrderedPairs(), [['b', 'a'], ['c', 'a'], ['c', 'b']]);
+		assert.deepEqual(instance.getOrderedPairs(), [
+			['b', 'a'],
+			['c', 'a'],
+			['c', 'b'],
+		]);
 		assert.deepEqual(instance.getOrderedGroups(), [['c', 'b', 'a']]);
 		assert.deepEqual(instance.getItemsBefore('a'), ['b', 'c']);
 		assert.deepEqual(instance.getItemsBefore('b'), ['c']);
@@ -73,46 +81,64 @@ const MaxDiff = require('.');
 		assert.deepEqual(instance.getItemsAfter('a'), []);
 		assert.deepEqual(instance.getItemsAfter('b'), ['a']);
 		assert.deepEqual(instance.getItemsAfter('c'), ['a', 'b']);
-	});
+	};
 	// b < a, c < a
-	let f1 = ((instance) => {
+	let f1 = (instance) => {
 		assert.equal(instance.complete, false);
-		assert.equal(instance.progress, 2/3);
+		assert.equal(instance.progress, 2 / 3);
 		assert.deepEqual(instance.result, undefined);
 		assert.deepEqual(instance.getUnorderedPairs(), [['b', 'c']]);
 		assert.deepEqual(instance.getUnorderedGroups(), [['b', 'c']]);
-		assert.deepEqual(instance.getOrderedPairs(), [['b', 'a'], ['c', 'a']]);
-		assert.deepEqual(instance.getOrderedGroups(), [['b', 'a'], ['c', 'a']]);
+		assert.deepEqual(instance.getOrderedPairs(), [
+			['b', 'a'],
+			['c', 'a'],
+		]);
+		assert.deepEqual(instance.getOrderedGroups(), [
+			['b', 'a'],
+			['c', 'a'],
+		]);
 		assert.deepEqual(instance.getItemsBefore('a'), ['b', 'c']);
 		assert.deepEqual(instance.getItemsBefore('b'), []);
 		assert.deepEqual(instance.getItemsBefore('c'), []);
 		assert.deepEqual(instance.getItemsAfter('a'), []);
 		assert.deepEqual(instance.getItemsAfter('b'), ['a']);
 		assert.deepEqual(instance.getItemsAfter('c'), ['a']);
-	});
+	};
 	// c < a, c < b
-	let f2 = ((instance) => {
+	let f2 = (instance) => {
 		assert.equal(instance.complete, false);
-		assert.equal(instance.progress, 2/3);
+		assert.equal(instance.progress, 2 / 3);
 		assert.deepEqual(instance.result, undefined);
 		assert.deepEqual(instance.getUnorderedPairs(), [['a', 'b']]);
 		assert.deepEqual(instance.getUnorderedGroups(), [['a', 'b']]);
-		assert.deepEqual(instance.getOrderedPairs(), [['c', 'a'], ['c', 'b']]);
-		assert.deepEqual(instance.getOrderedGroups(), [['c', 'a'], ['c', 'b']]);
+		assert.deepEqual(instance.getOrderedPairs(), [
+			['c', 'a'],
+			['c', 'b'],
+		]);
+		assert.deepEqual(instance.getOrderedGroups(), [
+			['c', 'a'],
+			['c', 'b'],
+		]);
 		assert.deepEqual(instance.getItemsBefore('a'), ['c']);
 		assert.deepEqual(instance.getItemsBefore('b'), ['c']);
 		assert.deepEqual(instance.getItemsBefore('c'), []);
 		assert.deepEqual(instance.getItemsAfter('a'), []);
 		assert.deepEqual(instance.getItemsAfter('b'), []);
 		assert.deepEqual(instance.getItemsAfter('c'), ['a', 'b']);
-	});
+	};
 	((instance) => {
 		instance.order('b', 'a');
 		assert.equal(instance.complete, false);
-		assert.equal(instance.progress, 1/3);
+		assert.equal(instance.progress, 1 / 3);
 		assert.deepEqual(instance.result, undefined);
-		assert.deepEqual(instance.getUnorderedPairs(), [['a', 'c'], ['b', 'c']]);
-		assert.deepEqual(instance.getUnorderedGroups(), [['a', 'c'], ['b', 'c']]);
+		assert.deepEqual(instance.getUnorderedPairs(), [
+			['a', 'c'],
+			['b', 'c'],
+		]);
+		assert.deepEqual(instance.getUnorderedGroups(), [
+			['a', 'c'],
+			['b', 'c'],
+		]);
 		assert.deepEqual(instance.getOrderedPairs(), [['b', 'a']]);
 		assert.deepEqual(instance.getOrderedGroups(), [['b', 'a']]);
 		assert.deepEqual(instance.getItemsBefore('a'), ['b']);
@@ -135,10 +161,16 @@ const MaxDiff = require('.');
 	((instance) => {
 		instance.order('c', 'a');
 		assert.equal(instance.complete, false);
-		assert.equal(instance.progress, 1/3);
+		assert.equal(instance.progress, 1 / 3);
 		assert.deepEqual(instance.result, undefined);
-		assert.deepEqual(instance.getUnorderedPairs(), [['a', 'b'], ['b', 'c']]);
-		assert.deepEqual(instance.getUnorderedGroups(), [['a', 'b'], ['b', 'c']]);
+		assert.deepEqual(instance.getUnorderedPairs(), [
+			['a', 'b'],
+			['b', 'c'],
+		]);
+		assert.deepEqual(instance.getUnorderedGroups(), [
+			['a', 'b'],
+			['b', 'c'],
+		]);
 		assert.deepEqual(instance.getOrderedPairs(), [['c', 'a']]);
 		assert.deepEqual(instance.getOrderedGroups(), [['c', 'a']]);
 		assert.deepEqual(instance.getItemsBefore('a'), ['c']);
@@ -163,10 +195,16 @@ const MaxDiff = require('.');
 	((instance) => {
 		instance.order('c', 'b');
 		assert.equal(instance.complete, false);
-		assert.equal(instance.progress, 1/3);
+		assert.equal(instance.progress, 1 / 3);
 		assert.deepEqual(instance.result, undefined);
-		assert.deepEqual(instance.getUnorderedPairs(), [['a', 'b'], ['a', 'c']]);
-		assert.deepEqual(instance.getUnorderedGroups(), [['a', 'b'], ['a', 'c']]);
+		assert.deepEqual(instance.getUnorderedPairs(), [
+			['a', 'b'],
+			['a', 'c'],
+		]);
+		assert.deepEqual(instance.getUnorderedGroups(), [
+			['a', 'b'],
+			['a', 'c'],
+		]);
 		assert.deepEqual(instance.getOrderedPairs(), [['c', 'b']]);
 		assert.deepEqual(instance.getOrderedGroups(), [['c', 'b']]);
 		assert.deepEqual(instance.getItemsBefore('a'), []);
@@ -189,12 +227,18 @@ const MaxDiff = require('.');
 }
 {
 	let instance = MaxDiff(['a', 'b', 'c']);
-	let f = ((instance) => {
+	let f = (instance) => {
 		assert.equal(instance.complete, false);
-		assert.equal(instance.progress, 1/3);
+		assert.equal(instance.progress, 1 / 3);
 		assert.deepEqual(instance.result, undefined);
-		assert.deepEqual(instance.getUnorderedPairs(), [['a', 'b'], ['b', 'c']]);
-		assert.deepEqual(instance.getUnorderedGroups(), [['a', 'b'], ['b', 'c']]);
+		assert.deepEqual(instance.getUnorderedPairs(), [
+			['a', 'b'],
+			['b', 'c'],
+		]);
+		assert.deepEqual(instance.getUnorderedGroups(), [
+			['a', 'b'],
+			['b', 'c'],
+		]);
 		assert.deepEqual(instance.getOrderedPairs(), [['c', 'a']]);
 		assert.deepEqual(instance.getOrderedGroups(), [['c', 'a']]);
 		assert.deepEqual(instance.getItemsBefore('a'), ['c']);
@@ -203,7 +247,7 @@ const MaxDiff = require('.');
 		assert.deepEqual(instance.getItemsAfter('a'), []);
 		assert.deepEqual(instance.getItemsAfter('b'), []);
 		assert.deepEqual(instance.getItemsAfter('c'), ['a']);
-	});
+	};
 	instance.order('c', 'c', 'a', 'a', 'c', 'c');
 	f(instance);
 	instance.order('a', 'a', 'c', 'c', 'a', 'a');

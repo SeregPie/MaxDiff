@@ -1,4 +1,4 @@
-interface MaxDiff<T> {
+export interface MaxDiff<T> {
 	items: Array<T>;
 	progress: number;
 	complete: boolean;
@@ -18,8 +18,4 @@ interface MaxDiff<T> {
 	clone(): MaxDiff<T>;
 }
 
-declare const MaxDiff: {
-	<T>(items: Iterable<T>): MaxDiff<T>;
-}
-
-export default MaxDiff;
+export default function MaxDiff<T>(items: Iterable<T>): MaxDiff<T>;
